@@ -30,7 +30,7 @@ myim=plt.imread('meerkat_small.png')
 #red=myim[:,:,0]
 red=make_chessboard(16,16)
 
-kernel=get_smooth_kernel(red.shape,4)
+kernel=get_smooth_kernel(red.shape,1.5)
 redft=np.fft.rfft2(red)
 kernelft=np.fft.rfft2(kernel)
 red_smooth_ft=redft*kernelft
