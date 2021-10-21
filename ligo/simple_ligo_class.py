@@ -4,6 +4,19 @@ import h5py
 import glob
 plt.ion()
 
+
+def make_window(n):
+    x=np.linspace(-np.pi,np.pi,n)
+    return 0.5+0.5*np.cos(x)
+
+def make_flat_window(n,m):
+    tmp=make_window(m)
+    win=np.ones(n)
+    mm=m//2
+    win[:mm]=tmp[:mm]
+    win[-mm:]=tmp[-mm:]
+    return win
+
 def read_template(filename):
     dataFile=h5py.File(filename,'r')
     template=dataFile['template']
@@ -42,21 +55,18 @@ strain,dt,utc=read_file(fname)
 template_name='GW150914_4_template.hdf5'
 th,tl=read_template(template_name)
 
+n=len(strain)
+#win=make_window(n)
+win=make_flat_window(n,n//5)
+sft=np.fft.rfft(win*strain)
 
-#spec,nu=measure_ps(strain,do_win=True,dt=dt,osamp=16)
-#strain_white=noise_filter(strain,numpy.sqrt(spec),nu,nu_max=1600.,taper=5000)
+Nft=np.abs(sft)**2
+for i in range(10):
+    Nft=(Nft+np.roll(Nft,1)+np.roll(Nft,-1))/3
 
-#th_white=noise_filter(th,numpy.sqrt(spec),nu,nu_max=1600.,taper=5000)
-#tl_white=noise_filter(tl,numpy.sqrt(spec),nu,nu_max=1600.,taper=5000)
+sft_white=sft/np.sqrt(Nft)
+tft_white=np.fft.rfft(th*win)/np.sqrt(Nft)
+t_white=np.fft.irfft(tft_white)
 
-
-#matched_filt_h=numpy.fft.irfft(numpy.fft.rfft(strain_white)*numpy.conj(numpy.fft.rfft(th_white)))
-#matched_filt_l=numpy.fft.irfft(numpy.fft.rfft(strain_white)*numpy.conj(numpy.fft.rfft(tl_white)))
-
-
-
-
-#copied from bash from class
-# strain2=np.append(strain,np.flipud(strain[1:-1]))
-# tobs=len(strain)*dt
-# k_true=np.arange(len(myft))*dnu
+xcorr1=np.fft.irfft(sft*np.fft.rfft(th*win))
+xcorr2=np.fft.irfft(sft_white*np.conj(tft_white))
