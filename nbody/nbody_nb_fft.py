@@ -110,6 +110,15 @@ class particles:
         self.x[:]=np.random.randn(self.npart,2)*(self.ngrid/12)+self.ngrid/2
         self.m[:]=1
         self.v[:]=0
+    def ics_2gauss(self):
+        self.x[:]=np.random.randn(self.npart,2)*(self.ngrid/12)+self.ngrid/2
+        self.x[:self.npart//2,0]=self.x[:self.npart//2,0]-self.ngrid/5
+        self.x[self.npart//2:,0]=self.x[self.npart//2:,0]+self.ngrid/5
+        self.m[:]=1
+        self.v[:]=0
+        self.v[:self.npart//2,1]=25
+        self.v[self.npart//2:,1]=-25
+
     def ics_powlaw(self,ind=-2,amp=0.01):
         vec=np.fft.fftfreq(self.ngrid)*self.ngrid
         rsqr=np.outer(np.ones(self.ngrid),vec**2)
@@ -164,7 +173,7 @@ class particles:
 parts=particles(npart=2000000,soft=2)
 #parts.ics_poisson()
 #parts.ics_powlaw(ind=-2)
-parts.ics_gauss()
+parts.ics_2gauss()
 parts.get_kernel()
 
 plt.ion()
@@ -173,7 +182,7 @@ xy=parts.x.copy()
 parts.get_pot()
 rho=parts.rho.copy()
 pot=parts.pot.copy()
-osamp=1
+osamp=3
 
 
 fig = plt.figure()

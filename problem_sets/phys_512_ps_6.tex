@@ -1,0 +1,89 @@
+\documentclass[11pt]{article}
+%\usepackage{graphics,graphicx}
+%\usepackage{natbib}
+%\usepackage{color}
+%\citestyle{aas}
+\usepackage{url}
+
+\begin{document}
+
+{\bf{Problem Set 6 for Matched Filters.  Due Friday November 5 at
+    11:59 PM}}
+\vskip 0.1in
+Key will be getting LIGO data from:\\
+
+{\small{
+\url{https://www.gw-openscience.org/static/events/LOSC_Event_tutorial.zip}}}
+%https://www.gw-openscience.org/static/events/LOSC\_Event\_tutorial.zip
+\vskip 0.1in
+
+While they include code to do much of this, please don't use it
+(although you may look at it for inspiration) and instead write your
+own.  You can look at/use simple\_read\_ligo.py that I have posted for
+concise code to read the hdf5 files.  Feel free to have your code loop
+over the events and print the answer to each part for that event.  In
+order to make our life easy, in case we have to re-run your code
+(which we should not have to do), please also have a variable at the
+top of your code that sets the directory where you have unzipped the
+data.  LIGO has two detectors (in Livingston, Louisiana, and Hanford,
+Washington) and GW events need to be seen by both detectors to be
+considered real.  Note that my read\_template functon returns the
+templates for both Hanford and Livingston (th and tl).  
+
+%When we mark, we want to be able to just point your script to my copy of
+%the LIGO data without having to re-download it!
+
+{\bf{Problem 1}}: 
+
+Find gravitational waves!  Parts should include 
+
+a) Come up with a noise model for the Livingston and Hanford detectors
+separately.
+Describe in comments how you go about doing this.  Please mention
+something about how you smooth the power spectrum and how you deal
+with lines (if at all).  Please also explain how you window the data
+(you may want to use a window that has an extended flat period near
+the center to avoid tapering the data/template where the signal is not small).
+
+b) Use that noise model to search the four sets of events using a
+matched filter.  The mapping between data and templates can be found
+in the file BBH\_events\_v3.json, included in the zipfile.
+
+c)  Estimate a noise for each event, and from the output of the
+matched filter, give a signal-to-noise ratio for each event, both from
+the individual detectors, and from the combined Livingston + Hanford
+events.
+
+d)  Compare the signal-to-noise you get from the scatter in the
+matched filter to the analytic signal-to-noise you expect from your
+noise model.  How close are they?  If they disagree, can you explain
+why? 
+
+e) From the template and noise model, find the frequency from each
+event where half the weight comes from above that frequency and half
+below.  
+
+f) How well can you localize the time of arrival (the horizontal shift
+of your matched filter).  The positions of gravitational wave events
+are inferred by comparing their arrival times at different detectors.
+What is the typical positional uncertainy you might expect given that
+the detectors area a few thousand km apart? 
+
+\vskip 0.05in
+BONUS: You may find the Advent of Code enjoyable if you enjoy coding
+challenges.  Starting December 1 each year, there is a new two-part problem
+each day until the 25th.  Previous years are available on-line.  Part
+2 on December 20th last year ({\url{https://adventofcode.com/2020/day/20}})
+involved finding sea monsters in a puzzle, a perfect task for a
+matched filter.  You can still do previous year's problems.  For the
+bonus, find the sea monsters using a matched filter.  Submit your
+code, and a screenshot from AoC showing two stars on the 20th.  
+
+Note - to help you out, I've added my code that solves part 1
+(dec\_20\_1.py).  If you choose to use it, you'll need to edit your
+input to replace ``.''  with ``0 `` and ``\#'' with ``1 `` (note the
+added spaces).  One (but not the only) way to do this is in emacs with
+meta-x replace-string.  
+
+
+\end{document}
