@@ -16,9 +16,11 @@ plt.clf()
 plt.plot(u,v,'k')
 plt.plot(u,-v,'k')
 plt.show()
+plt.savefig('gauss_teardrop.png')
 
 N=1000000
 u=np.random.rand(N)
+#.86 seems to be max value of v
 v=(np.random.rand(N)*2-1)*0.86
 r=v/u
 accept=u<np.exp(-0.25*r**2)
@@ -32,3 +34,4 @@ plt.clf()
 plt.bar(bb,a,0.05)
 plt.plot(bb,pred,'r')
 plt.show()
+plt.savefig('gauss_ratio_hist.png')

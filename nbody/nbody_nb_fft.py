@@ -170,7 +170,7 @@ class particles:
 
 
 
-parts=particles(npart=2000000,soft=2)
+parts=particles(npart=10000000,soft=2)
 #parts.ics_poisson()
 #parts.ics_powlaw(ind=-2)
 parts.ics_2gauss()
