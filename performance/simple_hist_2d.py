@@ -1,11 +1,15 @@
 import numpy as np
 import time
 
+
 def hist_2d(xy,grid):
     ixy=np.asarray(np.round(xy),dtype='int')
     n=xy.shape[0]
     for i in range(n):
         grid[ixy[i,0],ixy[i,1]]=grid[ixy[i,0],ixy[i,1]]+1
+
+
+def hist_2d_numba
 
 npix=1000
 npt=2000000
