@@ -8,12 +8,14 @@ class node:
         self.left=None
         self.right=None
         self.prob=p
-    def print(self,cur=''):
+    def print(self,cur='',mydict=None):
         if (self.left is None)&(self.right is None):
             print(self.name,' ',cur)
+            if not(mydict is None):
+                mydict[self.name]=cur
         else:
-            self.left.print(cur+'0')
-            self.right.print(cur+'1')
+            self.left.print(cur+'0',mydict=mydict)
+            self.right.print(cur+'1',mydict=mydict)    
     def get_length(self,depth=0):
         if (self.left is None)&(self.right is None):
             #s=-self.prob*np.log2(self.prob)
@@ -63,9 +65,17 @@ def build_tree(names,probs):
 names=['a','b','c','d','e','f','g']
 probs=[1,1,2,4,8,8,8]
 tree=build_tree(names,probs)
+mydict={}
+tree.print(mydict=mydict)
 
 
 print('average bits per character: ',tree.get_length())
 pp=np.asarray(probs,dtype='float')
 pp=pp/pp.sum()
 print('ideal would have been ',-np.sum(pp*np.log2(pp)))
+
+message='cede'
+encoded=''
+for i in range(len(message)):
+    encoded=encoded+mydict[message[i]]
+print(message,' when encoded is ',encoded)
